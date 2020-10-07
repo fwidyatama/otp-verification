@@ -13,6 +13,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -108,19 +109,18 @@ func GetAllUser(c *gin.Context) {
 	var user model.User
 	var cursor *mongo.Cursor
 	var err error
-
-	verified := c.Query("verified")
+	verified := c.Request.URL.Query().Get("verified")
+	position := c.Request.URL.Query().Get("position")
+	boolVerified, err := strconv.ParseBool(verified)
+	filter := bson.M{}
 	ctx, _ := context.WithTimeout(context.TODO(), 5*time.Second)
-
-	switch verified {
-	case "true":
-		cursor, err = userCollection.Find(context.TODO(), bson.M{"verified": true})
-	case "false":
-		cursor, err = userCollection.Find(context.TODO(), bson.M{"verified": false})
-	default:
-		cursor, err = userCollection.Find(context.TODO(), bson.M{})
+	if verified != "" {
+		filter["verified"] = boolVerified
 	}
-
+	if position != "" {
+		filter["position"] = position
+	}
+	cursor, err = userCollection.Find(context.TODO(), filter)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"Message": err.Error(),

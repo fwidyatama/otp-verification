@@ -23,8 +23,8 @@ Don't forget to change .env.example into .env
 | ---------------------------- | ------ | ---------------------------- |
 | /api/users                | POST   | Register a new user          |
 | /api/users| GET| Show all user               |
-| /api/users?verified=true         | GET| Show all verified user         |
-| /api/users?verified=false| GET| Show all not verified user |
+| /api/users?verified=value&position=value        | GET| Show all filtered user. Can choose only 1 filter or combine them      |
+| /api/users/verify| POST| Verify user using otp |
 
 
 
