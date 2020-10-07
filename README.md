@@ -25,6 +25,7 @@ Don't forget to change .env.example into .env
 | /api/users| GET| Show all user               |
 | /api/users?verified=true         | GET| Show all verified user         |
 | /api/users?verified=false| GET| Show all not verified user |
+| /api/users/verify| POST| Verify user using otp |
 
 
 
